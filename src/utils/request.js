@@ -5,7 +5,7 @@ import { requestEncrypt, decrypt128Ecb } from './crypto.js';
  * 
  * @param {String} url - The original full API URL (e.g. https://interfacepc.music.163.com/api/v6/playlist/detail).
  * @param {Object} data - The original request parameters before encryption.
- * @param {Object} headers - Optional additional headers to include in the request.
+ * @param {Object} [headers={}] - Optional additional headers to include in the request.
  * @returns {Promise<{status: number, responseBuffer: Buffer}>} The HTTP status code and the response body as a Buffer.
  */
 async function eapiRequest(url, data, headers = {}) {
