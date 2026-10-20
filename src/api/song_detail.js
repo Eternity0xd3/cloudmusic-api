@@ -4,7 +4,7 @@ import { eapiRequest } from "../utils/request.js";
  * Fetches the details of songs
  * 
  * @param { number[] } songIds - IDs of the songs
- * @returns { Promise<{code: number, data: Object}> } - The HTTP status code and the song details as an object
+ * @returns { Promise<Object> } - The complete upstream response, including songs and privileges.
  */
 async function songDetail(songIds) {
     const listC = [];
@@ -19,7 +19,7 @@ async function songDetail(songIds) {
     const url = "https://interfacepc.music.163.com/api/v3/song/detail";
     const response = await eapiRequest(url, data);
     const resultData = JSON.parse(response.responseBuffer.toString("utf8"));
-    return resultData.songs;
+    return resultData;
 }
 
 export { songDetail };
