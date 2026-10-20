@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { isIP } from "node:net";
 import * as api from './api/index.js';
 
 const router = Router()
@@ -31,21 +32,27 @@ router.get('/song/detail', async (req, res) => {
 });
 
 router.get("/song/resource", async (req, res) => {
-    const { id, level } = req.query;
+    const { id, level, realIP } = req.query;
     const cookie = req.headers.cookie;
     if (!id) {
         return res.status(400).json({error:"id missing"});
     }
-    return res.json(await api.songResource(id, level, cookie));
+    if (realIP !== undefined && (typeof realIP !== 'string' || !isIP(realIP.trim()))) {
+        return res.status(400).json({ error: "realIP must be a valid IPv4 or IPv6 address." });
+    }
+    return res.json(await api.songResource(id, level, cookie, realIP));
 });
 
 router.get("/song/url", async (req, res) => {
-    const { id, level } = req.query;
+    const { id, level, realIP } = req.query;
     const cookie = req.headers.cookie;
     if (!id) {
         return res.status(400).json({ error: "id missing" });
     }
-    return res.json(await api.songUrl(id, level, cookie));
+    if (realIP !== undefined && (typeof realIP !== 'string' || !isIP(realIP.trim()))) {
+        return res.status(400).json({ error: "realIP must be a valid IPv4 or IPv6 address." });
+    }
+    return res.json(await api.songUrl(id, level, cookie, realIP));
 });
 
 export default router;
