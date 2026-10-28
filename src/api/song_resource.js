@@ -21,9 +21,8 @@ async function songResource(id, level = "lossless", cookie = "", realIP = undefi
         encodeType: "flac", 
     };
     const header = cookie.length === 0 ? {} : {cookie: cookie}
-    const configuredIP = realIP ?? process.env.NETEASE_REAL_IP;
-    const ip = typeof configuredIP === 'string' ? configuredIP.trim() : configuredIP;
-    if (ip || realIP !== undefined) {
+    if (realIP !== undefined) {
+        const ip = typeof realIP === 'string' ? realIP.trim() : realIP;
         if (typeof ip !== 'string' || !isIP(ip)) {
             throw new Error('realIP or NETEASE_REAL_IP must be a valid IPv4 or IPv6 address.');
         }
